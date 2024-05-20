@@ -2,6 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 import fake_useragent
 import data
+import schedule
+import time
+
 ref = data.ref
 def parser(ref):
     header = {'user-agent': fake_useragent.UserAgent().random}
@@ -24,4 +27,12 @@ def parser(ref):
 
     return coin
 
-print(parser(ref))
+def run_parser():
+    pd = parser(ref)
+    print(pd)
+
+schedule.every(10).minutes.do(run_parser)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
